@@ -10,6 +10,50 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Create Match-->
+        <scene sceneID="RmW-8R-faP">
+            <objects>
+                <viewController id="4x2-W7-9us" customClass="MCreateMatchViewController" customModule="MFireBaseMultiplayerEngine" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dKW-O8-Acu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="CvU-ss-Yn8">
+                                <rect key="frame" x="142" y="74" width="91" height="64.5"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbS-rZ-Kcf">
+                                        <rect key="frame" x="0.0" y="0.0" width="91" height="30"/>
+                                        <state key="normal" title="create match"/>
+                                        <connections>
+                                            <action selector="createMatch:" destination="4x2-W7-9us" eventType="touchUpInside" id="Xje-3H-poh"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VSA-lU-UXJ">
+                                        <rect key="frame" x="24.5" y="44" width="42" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="CvU-ss-Yn8" firstAttribute="centerX" secondItem="hca-Np-eK1" secondAttribute="centerX" id="bae-XO-nK5"/>
+                            <constraint firstItem="CvU-ss-Yn8" firstAttribute="top" secondItem="hca-Np-eK1" secondAttribute="top" constant="10" id="iBj-5p-K7M"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hca-Np-eK1"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Create Match" id="pNe-rn-aWM"/>
+                    <connections>
+                        <outlet property="btnCreateMatch" destination="bbS-rZ-Kcf" id="5F3-nw-NvM"/>
+                        <outlet property="lblState" destination="VSA-lU-UXJ" id="WAF-lx-Hmg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XUn-kj-8Of" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1009" y="-666"/>
+        </scene>
         <!--Firebase MP-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -35,6 +79,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k4I-qH-bn8">
                                         <rect key="frame" x="22" y="98" width="90" height="30"/>
                                         <state key="normal" title="Create Game"/>
+                                        <connections>
+                                            <segue destination="4x2-W7-9us" kind="show" id="P34-Ky-D9X"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1jD-WM-Aqi">
                                         <rect key="frame" x="31.5" y="147" width="71" height="30"/>
@@ -124,7 +171,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DyE-oz-7Iq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1008.8" y="697.60119940029995"/>
+            <point key="canvasLocation" x="1009" y="754"/>
         </scene>
         <!--Login-->
         <scene sceneID="eQo-ct-mBI">
@@ -182,7 +229,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IC2-7P-Uv1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1740" y="26.53673163418291"/>
+            <point key="canvasLocation" x="1740" y="27"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JdJ-BS-fSn">
@@ -200,7 +247,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tIP-oY-mP9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="445.60000000000002" y="-671.51424287856082"/>
+            <point key="canvasLocation" x="350" y="27"/>
         </scene>
     </scenes>
 </document>

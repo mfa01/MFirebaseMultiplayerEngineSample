@@ -13,8 +13,12 @@ class MFirebaseServices : NSObject {
     static let shared = MFirebaseServices()
     
     override init() {
+        super.init()
         if FirebaseApp.allApps?.count==0 {
             FirebaseApp.configure()
+            loginAnonymously { (user) in
+                print("Mfirebase_DisplayName: \(user.displayName ?? "noname")")
+            }
         }
     }
     func uploadImage(data:Data?,completion:@escaping (URL?,Error?)->()) {
@@ -37,7 +41,7 @@ class MFirebaseServices : NSObject {
         
         // Upload the file to the path "images/rivers.jpg"
         _ = riversRef.putData(data, metadata: nil) { (metadata, error) in
-            guard let metadata = metadata else {
+            guard metadata != nil else {
                 // Uh-oh, an error occurred!
                 return
             }
@@ -57,7 +61,7 @@ class MFirebaseServices : NSObject {
         
     }
     func downloadImage(from url: URL?,completion:@escaping (UIImage?,Error?)->()) {
-        print("Download Started")
+        print("Mfirebase_Download Started")
         guard url != nil else{return}
         URLSession.shared.dataTask(with: url!) { (data, response, error) in
             guard let data = data, error == nil else {
@@ -65,7 +69,7 @@ class MFirebaseServices : NSObject {
                 return
             }
 //            print(response?.suggestedFilename ?? url.lastPathComponent)
-            print("Download Finished")
+            print("Mfirebase_Download Finished")
             DispatchQueue.main.async() {
                 completion(UIImage(data: data),nil)
             }
@@ -95,10 +99,10 @@ class MFirebaseServices : NSObject {
         changeRequest?.commitChanges { (error) in
             if (error != nil){
                 completion(false,error)
-                print("error \(String(describing: error?.localizedDescription))")
+                print("Mfirebase_error \(String(describing: error?.localizedDescription))")
             }
             else {
-                print("name change successfully")
+                print("Mfirebase_name change successfully")
                 completion(true,error)
             }
         }
