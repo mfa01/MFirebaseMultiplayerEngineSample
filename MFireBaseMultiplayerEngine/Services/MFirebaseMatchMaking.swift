@@ -70,7 +70,7 @@ class MFirebaseMatchMaking: NSObject {
         }
     }
     
-    func matchMaking(completion:@escaping (_ joined:Bool,_ created:Bool,_ matchDetails:MatchDetails?,Error?)->()) {
+    func matchMaking(completion:@escaping (_ joined:Bool,_ created:Bool,_ matchDetails:MatchDetails?,Error?)->(),playerJoinedCompletion:@escaping (_ player:PlayerData?)->()) {
         listMatches { (ready) in
             if ready {
                 //join match
@@ -108,12 +108,26 @@ class MFirebaseMatchMaking: NSObject {
                 self.createMatch(completion: { (created, error) in
                     if error == nil {
                         completion(false,true,self.currentMatch,error)
+                       
+                        let createdMatch = Database.database().reference(withPath: "Matches/\(MatchType.StartedMatches)");
+                        createdMatch.queryOrdered(byChild: self.currentMatch.matchID!)
+                            createdMatch.observe(DataEventType.childAdded, with: { (snap) in
+                            let value = snap.value as! [String:Any]
+                            let matchDetails=MatchDetails.init(value: value)
+                            playerJoinedCompletion(matchDetails.players?.last)
+                        })
+//                        createdMatch.observe(DataEventType.childAdded, with: { (snap) in
+//
+//                            let value = snap.value as! [String:Any]
+//                            let matchDetails=MatchDetails.init(value: value)
+//                            playerJoinedCompletion(matchDetails.players?.last)
+//                        })
                     }
                     else {
                         //error in create match
                         //try again
                         completion(false,false,self.currentMatch,error)
-                        
+                       
                     }
                 })
             }
