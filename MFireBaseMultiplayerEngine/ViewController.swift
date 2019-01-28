@@ -21,6 +21,12 @@ class ViewController: UIViewController {
             let user = mFireServices.getCurrentUser()
             dest.setUserData(name: user?.displayName, url: user?.photoURL)
         }
+        else if segue.destination.isKind(of: MCreateMatchViewController.self){
+            print("going to profile")
+            let dest=segue.destination as! MCreateMatchViewController
+            dest.user = mFireServices.getCurrentUser()
+//            dest.setUserData(name: user?.displayName, url: user?.photoURL)
+        }
     }
 }
 

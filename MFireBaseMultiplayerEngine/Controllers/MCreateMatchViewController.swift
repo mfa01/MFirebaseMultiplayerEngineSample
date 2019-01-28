@@ -7,40 +7,55 @@
 //
 
 import UIKit
-
+import Firebase
 class MCreateMatchViewController: UIViewController {
+    @IBOutlet var player1Name: UILabel!
+    @IBOutlet var player1Image: UIImageView!
+    
+    @IBOutlet var player2Name: UILabel!
+    @IBOutlet var player2Image: UIImageView!
+    
     @IBOutlet var btnCreateMatch: UIButton!
     @IBOutlet var lblState: UILabel!
     let matchMake = MFirebaseMatchMaking()
-    @IBAction func createMatch(_ sender: Any) {
-        matchMake.createMatch(completion: { (done, error) in
-            if done==true{
-                self.lblState.text="waiting for opponent"
-            }
-            else{
-                self.lblState.text="error in creating match \(String(describing: error?.localizedDescription))"
-                
-                self.enableCreateMatchBtn(enable: true)
-            }
-        }) { (ready) in
-            self.lblState.text="other player joined you"
-        }
+    let services = MFirebaseServices()
+    var user : User?
+    @IBAction func joinMatch(_ sender: Any) {
+        matchMake.matchMaking { (joined, created, details, error) in
+            if joined {
+                self.lblState.text="Match Joined"
+                self.player2Name.text=details?.players?.first?.name
+                let url = URL(string: details?.players?.first?.photo ?? "")
             
-    
-        enableCreateMatchBtn(enable: false)
-    }
-    func enableCreateMatchBtn(enable : Bool)  {
-        self.btnCreateMatch.isUserInteractionEnabled=enable
-        if enable == false {
-            btnCreateMatch.setTitleColor(UIColor.gray, for: .normal)
-        }
-        else{
-            btnCreateMatch.setTitleColor(UIColor.blue, for: .normal)
+                self.services.downloadImage(from: url) { (image, error) in
+                    if error == nil {
+                        DispatchQueue.main.async {
+                            self.player2Image.image = image
+                        }
+                        
+                    }
+                }
+            }
+            else if created {
+                self.lblState.text="Match Created"
+                
+            }
+            
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        enableCreateMatchBtn(enable: true)
-        // Do any additional setup after loading the view.
+        updateUI()
+    }
+    func updateUI() {
+        player1Name.text=user?.displayName
+        services.downloadImage(from: user?.photoURL) { (image, error) in
+            if error == nil {
+                DispatchQueue.main.async {
+                self.player1Image.image = image
+                }
+                
+            }
+        }
     }
 }
