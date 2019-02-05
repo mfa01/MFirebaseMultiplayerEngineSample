@@ -13,6 +13,7 @@ import FirebaseDatabase
 enum MatchType {
     case WaitingMatches
     case StartedMatches
+    case PlayingMatches
 }
 enum MatchStatus {
     //case waitingMatches
@@ -81,6 +82,7 @@ class MFirebaseMatchMaking: NSObject {
                             if error == nil {
                                 print("match started!")
                                 completion(true,false,self.currentMatch,nil)
+                                self.listnToMoves()
                             }
                             else {
                                 //error in create joind match again
@@ -108,20 +110,9 @@ class MFirebaseMatchMaking: NSObject {
                 self.createMatch(completion: { (created, error) in
                     if error == nil {
                         completion(false,true,self.currentMatch,error)
-                       
-                        let createdMatch = Database.database().reference(withPath: "Matches/\(MatchType.StartedMatches)");
-                        createdMatch.queryOrdered(byChild: self.currentMatch.matchID!)
-                            createdMatch.observe(DataEventType.childAdded, with: { (snap) in
-                            let value = snap.value as! [String:Any]
-                            let matchDetails=MatchDetails.init(value: value)
-                            playerJoinedCompletion(matchDetails.players?.last)
+                        self.waitOtherPlayersToJoinTheMatch(completion: { (player) in
+                            playerJoinedCompletion(player)
                         })
-//                        createdMatch.observe(DataEventType.childAdded, with: { (snap) in
-//
-//                            let value = snap.value as! [String:Any]
-//                            let matchDetails=MatchDetails.init(value: value)
-//                            playerJoinedCompletion(matchDetails.players?.last)
-//                        })
                     }
                     else {
                         //error in create match
@@ -133,6 +124,24 @@ class MFirebaseMatchMaking: NSObject {
             }
         }
      
+    }
+    func waitOtherPlayersToJoinTheMatch(completion:@escaping (_ playerJoined:PlayerData?)->()){
+        let createdMatch = Database.database().reference(withPath: "Matches/\(MatchType.StartedMatches)");
+        createdMatch.observe(DataEventType.childAdded, with: { (snap) in
+            let value = snap.value as! [String:Any]
+//            print("snap.key  \(snap.key)")
+            if snap.key == self.currentMatch.matchID {
+            let matchDetails=MatchDetails.init(value: value)
+
+                if matchDetails.creatorID == self.mFireHelper.getCurrentUser()?.uid{
+                    completion(matchDetails.players?.last)
+                    self.currentMatch=matchDetails
+                    createdMatch.removeAllObservers()
+                    
+                }
+            }
+        })
+        
     }
     func removeMatch(matchDetails:MatchDetails?,completion:@escaping (_ matchRemoved:Bool)->()){
         if self.matchStarted || self.removingMatchStarted {return}
@@ -163,8 +172,9 @@ class MFirebaseMatchMaking: NSObject {
                 matchDetails.matchID=(snapshot as! DataSnapshot).key
                 if matchDetails.creatorID != self.mFireHelper.getCurrentUser()?.uid {
                     self.waitingMatchesArray.append(matchDetails)
+                    print("child added \(String(describing: matchDetails.matchID)) name: \(String(describing: matchDetails.creatorName))")
+
                 }
-                print("child added \(String(describing: matchDetails.matchID)) name: \(String(describing: matchDetails.creatorName))")
             }
             if self.waitingMatchesArray.count == 0 {
                 completion(false)
@@ -175,6 +185,29 @@ class MFirebaseMatchMaking: NSObject {
         })
     }
     
+    
+    func startMatch(){
+        guard let matchID = self.currentMatch.matchID  else {
+            return
+        }
+        let startMatch = Database.database().reference(withPath: "Matches/\(MatchType.StartedMatches)/\(matchID)/moves");
+        
+        let move = Move.init(playerID: self.mFireHelper.getCurrentUser()?.uid, code: 10, message: "hello")
+        startMatch.childByAutoId().setValue(move.dictionary);
+        
+        listnToMoves()
+    }
+    func listnToMoves() {
+        guard let matchID = self.currentMatch.matchID  else {
+            return
+        }
+        let startMatch = Database.database().reference(withPath: "Matches/\(MatchType.StartedMatches)/\(matchID)/moves");
+        startMatch.observe(DataEventType.childAdded, with: { (snap) in
+            let value = snap.value as! [String:Any]
+            print("move \(value)")
+            let comingMove=Move.init(value: value)
+        })
+    }
     /*
      func joinMatch(matchID:String,completion:(_ joined:Bool)->()) {
      

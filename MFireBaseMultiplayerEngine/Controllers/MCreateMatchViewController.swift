@@ -20,11 +20,16 @@ class MCreateMatchViewController: UIViewController {
     let matchMake = MFirebaseMatchMaking()
     let services = MFirebaseServices()
     var user : User?
+    @IBAction func startGame(_ sender: Any) {
+        matchMake.startMatch()
+    }
     @IBAction func joinMatch(_ sender: Any) {
         matchMake.matchMaking(completion: { (joined, created, details, error) in
             if joined {
+                DispatchQueue.main.async {
                 self.lblState.text="Match Joined"
                 self.player2Name.text=details?.players?.first?.name
+                }
                 let url = URL(string: details?.players?.first?.photo ?? "")
                 
                 self.services.downloadImage(from: url) { (image, error) in
@@ -37,7 +42,9 @@ class MCreateMatchViewController: UIViewController {
                 }
             }
             else if created {
+                DispatchQueue.main.async {
                 self.lblState.text="Match Created"
+                }
                 
             }
         }) { (joinedPlayer) in
@@ -47,6 +54,7 @@ class MCreateMatchViewController: UIViewController {
                 if error == nil {
                     DispatchQueue.main.async {
                         self.player2Image.image = image
+                        self.lblState.text="other player join the match"
                     }
                     
                 }
