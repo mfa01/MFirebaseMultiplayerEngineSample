@@ -20,6 +20,11 @@ class MCreateMatchViewController: UIViewController {
     let matchMake = MFirebaseMatchMaking()
     let services = MFirebaseServices()
     var user : User?
+    
+    @IBAction func sendMove(_ sender: Any) {
+        matchMake.sendMove(code: MessageType.gameMove.rawValue, message: "\(MessageType.gameMove)")
+    }
+    
     @IBAction func startGame(_ sender: Any) {
         matchMake.startMatch()
     }

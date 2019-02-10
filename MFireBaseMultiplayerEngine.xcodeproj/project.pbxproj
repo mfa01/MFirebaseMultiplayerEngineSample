@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3937FFB5CA955D6AA0FC5E55 /* Pods_MFireBaseMultiplayerEngineTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 066F8BFF20517B9BDA3ADEB6 /* Pods_MFireBaseMultiplayerEngineTests.framework */; };
 		3A731571220A53D1007B5C62 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A731570220A53D0007B5C62 /* Move.swift */; };
+		3A731573220CDBC0007B5C62 /* MFirebaseMatchMessaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A731572220CDBC0007B5C62 /* MFirebaseMatchMessaging.swift */; };
 		3A771A0521F67C6100CAAD8C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A771A0421F67C6100CAAD8C /* AppDelegate.swift */; };
 		3A771A0721F67C6100CAAD8C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A771A0621F67C6100CAAD8C /* ViewController.swift */; };
 		3A771A0A21F67C6100CAAD8C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A771A0821F67C6100CAAD8C /* Main.storyboard */; };
@@ -50,6 +51,7 @@
 		066F8BFF20517B9BDA3ADEB6 /* Pods_MFireBaseMultiplayerEngineTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MFireBaseMultiplayerEngineTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3840C172B74405C7B0C4CA3D /* Pods-MFireBaseMultiplayerEngine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MFireBaseMultiplayerEngine.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MFireBaseMultiplayerEngine/Pods-MFireBaseMultiplayerEngine.debug.xcconfig"; sourceTree = "<group>"; };
 		3A731570220A53D0007B5C62 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
+		3A731572220CDBC0007B5C62 /* MFirebaseMatchMessaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFirebaseMatchMessaging.swift; sourceTree = "<group>"; };
 		3A771A0121F67C6100CAAD8C /* MFireBaseMultiplayerEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MFireBaseMultiplayerEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A771A0421F67C6100CAAD8C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A771A0621F67C6100CAAD8C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			children = (
 				3A771A3A21F7C74A00CAAD8C /* MFirebaseServices.swift */,
 				3A771A4321F91EC500CAAD8C /* MFirebaseMatchMaking.swift */,
+				3A731572220CDBC0007B5C62 /* MFirebaseMatchMessaging.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A771A3B21F7C74A00CAAD8C /* MFirebaseServices.swift in Sources */,
+				3A731573220CDBC0007B5C62 /* MFirebaseMatchMessaging.swift in Sources */,
 				3A771A0721F67C6100CAAD8C /* ViewController.swift in Sources */,
 				3A771A4721F92C1B00CAAD8C /* MatchDetails.swift in Sources */,
 				3A771A4021F7D65A00CAAD8C /* MProfileViewController.swift in Sources */,

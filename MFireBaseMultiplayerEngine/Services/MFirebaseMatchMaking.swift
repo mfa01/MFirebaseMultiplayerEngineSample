@@ -20,6 +20,9 @@ enum MatchStatus {
     //case startedMatches
 }
 class MFirebaseMatchMaking: NSObject {
+    
+    
+    
     let tagTitle="MFirebaseMatchMaking_"
     //    var ref = Database.database().reference()
     var joinRef = Database.database().reference(withPath: "Matches/\(MatchType.WaitingMatches)")
@@ -29,6 +32,7 @@ class MFirebaseMatchMaking: NSObject {
     var matchStarted = false
     var removingMatchStarted = false
     var currentMatch = MatchDetails()
+    var matchMessaging : MFirebaseMatchMessaging?
     func resetVars(){
         self.removingMatchStarted=false;
     }
@@ -82,7 +86,8 @@ class MFirebaseMatchMaking: NSObject {
                             if error == nil {
                                 print("match started!")
                                 completion(true,false,self.currentMatch,nil)
-                                self.listnToMoves()
+                                self.initMatchMessage()
+                                self.matchMessaging?.matchStartedListenToMoves()
                             }
                             else {
                                 //error in create joind match again
@@ -185,114 +190,38 @@ class MFirebaseMatchMaking: NSObject {
         })
     }
     
-    
+    func initMatchMessage() {
+        guard let matchID = self.currentMatch.matchID  else {
+            return
+        }
+        self.matchMessaging=MFirebaseMatchMessaging.init(messagePath: "Matches/\(MatchType.StartedMatches)/\(matchID)/moves")
+        self.matchMessaging?.delegate=self
+    }
     func startMatch(){
-        guard let matchID = self.currentMatch.matchID  else {
-            return
-        }
-        let startMatch = Database.database().reference(withPath: "Matches/\(MatchType.StartedMatches)/\(matchID)/moves");
-        
-        let move = Move.init(playerID: self.mFireHelper.getCurrentUser()?.uid, code: 10, message: "hello")
-        startMatch.childByAutoId().setValue(move.dictionary);
-        
-        listnToMoves()
+        initMatchMessage()
+        matchMessaging?.startMatch(creatorID: self.mFireHelper.getCurrentUser()?.uid ?? "")
     }
-    func listnToMoves() {
-        guard let matchID = self.currentMatch.matchID  else {
-            return
-        }
-        let startMatch = Database.database().reference(withPath: "Matches/\(MatchType.StartedMatches)/\(matchID)/moves");
-        startMatch.observe(DataEventType.childAdded, with: { (snap) in
-            let value = snap.value as! [String:Any]
-            print("move \(value)")
-            let comingMove=Move.init(value: value)
-        })
-    }
-    /*
-     func joinMatch(matchID:String,completion:(_ joined:Bool)->()) {
-     
-     joinRef.observeSingleEvent(of: .value, with: { (snapshotParent) in
-     for snapshot in snapshotParent.children {
-     let value = (snapshot as! DataSnapshot).value as! [String:Any]
-     var matchDetails=MatchDetails.init(value: value)
-     matchDetails.matchID=(snapshot as! DataSnapshot).key
-     self.waitingMatchesArray.append(matchDetails)
-     print("child added \(String(describing: matchDetails.matchID)) name: \(String(describing: matchDetails.creatorName))")
-     }
-     if(self.waitingMatchesArray.count == 1 && self.matchStarted==false)
-     {
-     self.removeMatch(matchDetails: self.waitingMatchesArray[0])
-     }
-     //        })
-     //waitingMatchesRef.observe(.childAdded, with: { (snapshot) -> Void in
-     //            let value = snapshot.value as! [String:Any]
-     //            var matchDetails=MatchDetails.init(value: value)
-     //            matchDetails.matchID=snapshot.key
-     //            self.waitingMatchesArray.append(matchDetails)
-     //            print("child added \(String(describing: matchDetails.matchID)) name: \(String(describing: matchDetails.creatorName))")
-     //
-     //            if(self.waitingMatchesArray.count == 1 && self.matchStarted==false)
-     //            {
-     //                self.removeMatch(matchDetails: self.waitingMatchesArray[0])
-     //            }
-     })
-     // Listen for deleted matches in the Firebase database
-     waitingMatchesRef.observe(.childRemoved, with: { (snapshot) -> Void in
-     let value = snapshot.value as! [String:Any]
-     let matchDetails=MatchDetails.init(value: value)
-     
-     self.waitingMatchesArray.removeAll(where: { (details) -> Bool in
-     if details.matchID == matchDetails.matchID{
-     return true
-     }
-     return false
-     })
-     print("child removed \(String(describing: matchDetails.matchID))")
-     })
-     }
-     */
     
-    /*
-    func joinMatch(matchID:String,completion:(_ joined:Bool)->()) {
-     
-        joinRef.observeSingleEvent(of: .value, with: { (snapshotParent) in
-            for snapshot in snapshotParent.children {
-                let value = (snapshot as! DataSnapshot).value as! [String:Any]
-                var matchDetails=MatchDetails.init(value: value)
-                matchDetails.matchID=(snapshot as! DataSnapshot).key
-                self.waitingMatchesArray.append(matchDetails)
-                print("child added \(String(describing: matchDetails.matchID)) name: \(String(describing: matchDetails.creatorName))")
-            }
-            if(self.waitingMatchesArray.count == 1 && self.matchStarted==false)
-            {
-                self.removeMatch(matchDetails: self.waitingMatchesArray[0])
-            }
-            //        })
-            //waitingMatchesRef.observe(.childAdded, with: { (snapshot) -> Void in
-            //            let value = snapshot.value as! [String:Any]
-            //            var matchDetails=MatchDetails.init(value: value)
-            //            matchDetails.matchID=snapshot.key
-            //            self.waitingMatchesArray.append(matchDetails)
-            //            print("child added \(String(describing: matchDetails.matchID)) name: \(String(describing: matchDetails.creatorName))")
-            //
-            //            if(self.waitingMatchesArray.count == 1 && self.matchStarted==false)
-            //            {
-            //                self.removeMatch(matchDetails: self.waitingMatchesArray[0])
-            //            }
-        })
-        // Listen for deleted matches in the Firebase database
-        waitingMatchesRef.observe(.childRemoved, with: { (snapshot) -> Void in
-            let value = snapshot.value as! [String:Any]
-            let matchDetails=MatchDetails.init(value: value)
-     
-            self.waitingMatchesArray.removeAll(where: { (details) -> Bool in
-                if details.matchID == matchDetails.matchID{
-                    return true
-                }
-                return false
-            })
-            print("child removed \(String(describing: matchDetails.matchID))")
-        })
+    
+    
+    
+}
+
+extension MFirebaseMatchMaking:MFirebaseMatchMessagingDelegate{
+    func sendMove(code:Int?,message:String?) {
+        let move = Move.init(playerID: mFireHelper.getCurrentUser()?.uid, code: code, message: message)
+        matchMessaging?.sendMove(move: move)
     }
- */
+    func moveSent(move: Move) {
+        print("moveSent")
+    }
+    func gameStartedMessage(move: Move) {
+        print("gameStartedMessageDelegate")
+    }
+    func gameReceivedMessage(move: Move) {
+        print("gameStartedMessageDelegate \(String(describing: move.message))")
+    }
+    func gameReceivedMove(move: Move) {
+        print("gameReceivedMove \(String(describing: move.message))")
+    }
 }
