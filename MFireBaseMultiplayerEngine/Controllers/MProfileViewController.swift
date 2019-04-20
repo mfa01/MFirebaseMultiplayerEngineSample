@@ -18,6 +18,10 @@ class MProfileViewController: UIViewController {
         super.viewDidLoad()
         updateUserDataView()
     }
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        userNameTextField.resignFirstResponder()
+    }
+    
     func updateUserDataView() {
         self.userNameTextField.text=userName
         mFireServices.downloadImage(from: imageURL) { (image, error) in
@@ -51,7 +55,7 @@ class MProfileViewController: UIViewController {
         
     }
 }
-extension MProfileViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+extension MProfileViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate{
     func showImagePicker() {
         //imagePicker.modalPresentationStyle = UIModalPresentationStyle.currentContext
         imagePicker.delegate = self
@@ -71,5 +75,8 @@ extension MProfileViewController:UIImagePickerControllerDelegate,UINavigationCon
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true) {}
     }
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.userNameTextField.resignFirstResponder()
+        return true
+    }
 }

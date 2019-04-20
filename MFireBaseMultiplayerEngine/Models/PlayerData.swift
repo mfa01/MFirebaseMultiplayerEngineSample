@@ -10,6 +10,8 @@ import UIKit
 struct PlayerData {
     var id : String?
     var photo : String?
+    var image : UIImage?
+    var score : Int?
     var name : String?
 }
 

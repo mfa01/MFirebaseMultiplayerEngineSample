@@ -26,6 +26,12 @@
 		3A771A4421F91EC500CAAD8C /* MFirebaseMatchMaking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A771A4321F91EC500CAAD8C /* MFirebaseMatchMaking.swift */; };
 		3A771A4721F92C1B00CAAD8C /* MatchDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A771A4621F92C1B00CAAD8C /* MatchDetails.swift */; };
 		3A771A4921FE432A00CAAD8C /* PlayerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A771A4821FE432A00CAAD8C /* PlayerData.swift */; };
+		3AA13ACB225FD1A400434C21 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA13ACA225FD1A400434C21 /* Reachability.swift */; };
+		3AA13ACD225FD1B000434C21 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA13ACC225FD1B000434C21 /* Connection.swift */; };
+		3AF3673322650F3900BE3A5F /* GamePlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF3673222650F3900BE3A5F /* GamePlayController.swift */; };
+		3AF36735226518DF00BE3A5F /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF36734226518DF00BE3A5F /* PlayerView.swift */; };
+		3AF3673722651CDD00BE3A5F /* PlayerDataView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AF3673622651CDD00BE3A5F /* PlayerDataView.xib */; };
+		3AFBFEB8226B8ED8001BA078 /* UIImageView+Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFBFEB7226B8ED8001BA078 /* UIImageView+Download.swift */; };
 		8A738E52233EB7502128F68C /* Pods_MFireBaseMultiplayerEngineUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3677130A4D84B8D14C5CC30 /* Pods_MFireBaseMultiplayerEngineUITests.framework */; };
 		FD9A89D27C879729F5BC55B9 /* Pods_MFireBaseMultiplayerEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ADC1BBDD77255EAA2AD1E5 /* Pods_MFireBaseMultiplayerEngine.framework */; };
 /* End PBXBuildFile section */
@@ -74,6 +80,12 @@
 		3A771A4321F91EC500CAAD8C /* MFirebaseMatchMaking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFirebaseMatchMaking.swift; sourceTree = "<group>"; };
 		3A771A4621F92C1B00CAAD8C /* MatchDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetails.swift; sourceTree = "<group>"; };
 		3A771A4821FE432A00CAAD8C /* PlayerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerData.swift; sourceTree = "<group>"; };
+		3AA13ACA225FD1A400434C21 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		3AA13ACC225FD1B000434C21 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		3AF3673222650F3900BE3A5F /* GamePlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePlayController.swift; sourceTree = "<group>"; };
+		3AF36734226518DF00BE3A5F /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		3AF3673622651CDD00BE3A5F /* PlayerDataView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerDataView.xib; sourceTree = "<group>"; };
+		3AFBFEB7226B8ED8001BA078 /* UIImageView+Download.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Download.swift"; sourceTree = "<group>"; };
 		44ADC1BBDD77255EAA2AD1E5 /* Pods_MFireBaseMultiplayerEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MFireBaseMultiplayerEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7505B35CE043AF3F7A688C34 /* Pods-MFireBaseMultiplayerEngineTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MFireBaseMultiplayerEngineTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MFireBaseMultiplayerEngineTests/Pods-MFireBaseMultiplayerEngineTests.release.xcconfig"; sourceTree = "<group>"; };
 		AE1B1EA689BCF73DBD411DBF /* Pods-MFireBaseMultiplayerEngineUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MFireBaseMultiplayerEngineUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MFireBaseMultiplayerEngineUITests/Pods-MFireBaseMultiplayerEngineUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -146,6 +158,7 @@
 		3A771A0321F67C6100CAAD8C /* MFireBaseMultiplayerEngine */ = {
 			isa = PBXGroup;
 			children = (
+				3AF3672F2265067200BE3A5F /* GamePlay */,
 				3A771A4521F92C0800CAAD8C /* Models */,
 				3A771A3C21F7C8D700CAAD8C /* Controllers */,
 				3A771A3921F7C72800CAAD8C /* Services */,
@@ -182,9 +195,12 @@
 		3A771A3921F7C72800CAAD8C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				3AA13ACC225FD1B000434C21 /* Connection.swift */,
+				3AA13ACA225FD1A400434C21 /* Reachability.swift */,
 				3A771A3A21F7C74A00CAAD8C /* MFirebaseServices.swift */,
 				3A771A4321F91EC500CAAD8C /* MFirebaseMatchMaking.swift */,
 				3A731572220CDBC0007B5C62 /* MFirebaseMatchMessaging.swift */,
+				3AFBFEB7226B8ED8001BA078 /* UIImageView+Download.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -207,6 +223,16 @@
 				3A731570220A53D0007B5C62 /* Move.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		3AF3672F2265067200BE3A5F /* GamePlay */ = {
+			isa = PBXGroup;
+			children = (
+				3AF3673222650F3900BE3A5F /* GamePlayController.swift */,
+				3AF36734226518DF00BE3A5F /* PlayerView.swift */,
+				3AF3673622651CDD00BE3A5F /* PlayerDataView.xib */,
+			);
+			path = GamePlay;
 			sourceTree = "<group>";
 		};
 		F67E7F256B7636A1BE769F87 /* Pods */ = {
@@ -333,6 +359,7 @@
 				3A771A1221F67C6300CAAD8C /* LaunchScreen.storyboard in Resources */,
 				3A771A3821F7C3A400CAAD8C /* GoogleService-Info.plist in Resources */,
 				3A771A0F21F67C6300CAAD8C /* Assets.xcassets in Resources */,
+				3AF3673722651CDD00BE3A5F /* PlayerDataView.xib in Resources */,
 				3A771A0A21F67C6100CAAD8C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -439,9 +466,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AFBFEB8226B8ED8001BA078 /* UIImageView+Download.swift in Sources */,
 				3A771A3B21F7C74A00CAAD8C /* MFirebaseServices.swift in Sources */,
 				3A731573220CDBC0007B5C62 /* MFirebaseMatchMessaging.swift in Sources */,
 				3A771A0721F67C6100CAAD8C /* ViewController.swift in Sources */,
+				3AF36735226518DF00BE3A5F /* PlayerView.swift in Sources */,
 				3A771A4721F92C1B00CAAD8C /* MatchDetails.swift in Sources */,
 				3A771A4021F7D65A00CAAD8C /* MProfileViewController.swift in Sources */,
 				3A771A4221F91E3D00CAAD8C /* MCreateMatchViewController.swift in Sources */,
@@ -451,6 +480,9 @@
 				3A771A0D21F67C6100CAAD8C /* MFireBaseMultiplayerEngine.xcdatamodeld in Sources */,
 				3A771A4421F91EC500CAAD8C /* MFirebaseMatchMaking.swift in Sources */,
 				3A731571220A53D1007B5C62 /* Move.swift in Sources */,
+				3AF3673322650F3900BE3A5F /* GamePlayController.swift in Sources */,
+				3AA13ACB225FD1A400434C21 /* Reachability.swift in Sources */,
+				3AA13ACD225FD1B000434C21 /* Connection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

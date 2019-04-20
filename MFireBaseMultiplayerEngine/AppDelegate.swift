@@ -5,6 +5,14 @@
 //  Created by MAbed on 1/22/19.
 //  Copyright © 2019 Mohammad Abed. All rights reserved.
 //
+//organizaing more
+//dont allow doubles and msitakes
+//dont allow join twice
+//dont allow create tqwice
+//dont allow send messages before start
+//start one time
+//restart game
+//remove all opservers
 
 import UIKit
 import CoreData

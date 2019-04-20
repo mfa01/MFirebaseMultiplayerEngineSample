@@ -16,6 +16,7 @@ class MFirebaseServices : NSObject {
         super.init()
         if FirebaseApp.allApps?.count==0 {
             FirebaseApp.configure()
+            Database.database().isPersistenceEnabled = false
             loginAnonymously { (user) in
                 print("Mfirebase_DisplayName: \(user.displayName ?? "noname")")
             }
@@ -65,7 +66,9 @@ class MFirebaseServices : NSObject {
         guard url != nil else{return}
         URLSession.shared.dataTask(with: url!) { (data, response, error) in
             guard let data = data, error == nil else {
-                completion(nil,error)
+                DispatchQueue.main.async{
+                    completion(nil,error)   
+                }
                 return
             }
 //            print(response?.suggestedFilename ?? url.lastPathComponent)

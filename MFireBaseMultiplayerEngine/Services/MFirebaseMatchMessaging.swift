@@ -12,6 +12,10 @@ protocol MFirebaseMatchMessagingDelegate:AnyObject {
     func gameStartedMessage(move:Move)
     func gameReceivedMessage(move:Move)
     func gameReceivedMove(move:Move)
+    func gameReceivedHelloCheck(move:Move)
+    func gameReceivedHelloBack(move:Move)
+    func gameReceivedPlayerLeftMatch(move:Move)
+    
     func moveSent(move:Move)
 }
 
@@ -19,6 +23,9 @@ enum MessageType:Int {
     case gameStarted = 10
     case gameMessage = 11
     case gameMove = 12
+    case leaveMatch = 13
+    case hello = 14
+    case helloBack = 15
     
 }
 class MFirebaseMatchMessaging {
@@ -51,10 +58,10 @@ class MFirebaseMatchMessaging {
         let startMatch = Database.database().reference(withPath: messagePath);
         startMatch.observe(DataEventType.childAdded, with: { (snap) in
             let value = snap.value as! [String:Any]
-            print("move \(value)")
+            print("MFirebaseMatchMaking_Messages_move \(value)")
             let comingMove=Move.init(value: value)
             self.moves.append(comingMove)
-            if comingMove.playerID == self.userID{
+            if comingMove.playerID == self.userID {
                 self.delegate?.moveSent(move: comingMove)
                 return
             }
@@ -68,6 +75,15 @@ class MFirebaseMatchMessaging {
                 break
             case MessageType.gameMove.rawValue:
                 self.delegate?.gameReceivedMove(move: comingMove)
+                break
+            case MessageType.hello.rawValue:
+                self.delegate?.gameReceivedHelloCheck(move: comingMove)
+                break
+            case MessageType.helloBack.rawValue:
+                self.delegate?.gameReceivedHelloBack(move: comingMove)
+                break
+            case MessageType.leaveMatch.rawValue:
+                self.delegate?.gameReceivedPlayerLeftMatch(move: comingMove)
                 break
             default: break
             }

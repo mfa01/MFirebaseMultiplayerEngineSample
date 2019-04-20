@@ -7,7 +7,6 @@
 //
 
 import UIKit
-
 struct Move {
     var playerID:String?
     var code:Int?
